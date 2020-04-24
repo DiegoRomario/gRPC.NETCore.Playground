@@ -1,3 +1,3 @@
 # gRPC.NETCore.Playground
 
-![demo](https://user-images.githubusercontent.com/38575405/80163186-ba511800-85ab-11ea-93ac-2281e3316dc1.gif)
+![demo](https://user-images.githubusercontent.com/38575405/80210958-139c6400-860b-11ea-8cfe-8c7d4c71233d.gif)
