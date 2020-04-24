@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,24 +19,34 @@ namespace gRPC.NETCore.Host
         }
 
 
-        public override async Task GetQuotesStream(Empty request, IServerStreamWriter<QuotesData> responseStream, ServerCallContext context)
+        public override async Task GetQuotesStream(Stock request, IServerStreamWriter<QuotesData> responseStream, ServerCallContext context)
         {
             Random random = new Random();
+            double previousValue = 0, variationValue = 0, percentageChange = 0, currentValue = 0;
+            string bearOrBull = string.Empty;
+
             while (!context.CancellationToken.IsCancellationRequested)
             {
-                double value = random.NextDouble(5.00, 5.50);
-
+                currentValue = random.NextDouble(1276.00, 1285.50);
+                bearOrBull = (previousValue > currentValue ? "🐻" : "🐂");
+                variationValue = currentValue - (previousValue == 0 ? currentValue : previousValue);
+                percentageChange = (previousValue > 0 ? ((currentValue / previousValue) * 100) - 100 : 0);
                 var quotes = new QuotesData
-                { 
+                {
                     Datetime = DateTime.UtcNow.ToString(),
-                    Quote = $"GOOG Stock: $ {value.ToString("f2")}"
+                    Ticker = request.Ticker,                    
+                    Quote = currentValue.ToString("f2"),
+                    Priorquote = previousValue.ToString("f2"),
+                    Variationvalue = variationValue.ToString("f2"),
+                    Percentagechange = $"{percentageChange.ToString("f2")}%",
+                    Details = $"{bearOrBull}"
                 };
 
-                _logger.LogInformation("Sending GOOG quotes");
-
+                previousValue = currentValue;
+                _logger.LogInformation($"Sending {request} quotes");
                 await responseStream.WriteAsync(quotes);
 
-                await Task.Delay(500); 
+                await Task.Delay(350); 
             }
 
             if (context.CancellationToken.IsCancellationRequested)
@@ -44,17 +54,6 @@ namespace gRPC.NETCore.Host
                 _logger.LogInformation("The client cancelled their request");
             }
         }
-
-        //public override Task SayHello(HelloRequest request, IServerStreamWriter<HelloReply> responseStream, ServerCallContext context)
-        //{
-        //    Random random = new Random();
-        //    double value = random.NextDouble(5.00, 5.50);
-
-        //    return Task.FromResult(new HelloReply
-        //    {
-        //        Message = $"Stock: {request.Name.ToUpper()}:\nPrice: $ {value.ToString("f2")}"
-        //    });
-        //}
 
     }
     public static class RandomExtensions
