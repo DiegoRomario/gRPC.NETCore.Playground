@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using gRPC.NETCore.Host.Entensions;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +18,6 @@ namespace gRPC.NETCore.Host
         {
             _logger = logger;
         }
-
 
         public override async Task GetQuotesStream(Stock request, IServerStreamWriter<QuotesData> responseStream, ServerCallContext context)
         {
@@ -55,15 +55,5 @@ namespace gRPC.NETCore.Host
             }
         }
 
-    }
-    public static class RandomExtensions
-    {
-        public static double NextDouble(
-            this Random random,
-            double minValue,
-            double maxValue)
-        {
-            return random.NextDouble() * (maxValue - minValue) + minValue;
-        }
     }
 }
