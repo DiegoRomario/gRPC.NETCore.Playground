@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
@@ -14,15 +17,45 @@ namespace gRPC.NETCore.Host
         {
             _logger = logger;
         }
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+
+
+        public override async Task GetQuotesStream(Empty request, IServerStreamWriter<QuotesData> responseStream, ServerCallContext context)
         {
             Random random = new Random();
-            double value = random.NextDouble(5.00, 5.50);
-            return Task.FromResult(new HelloReply
+            while (!context.CancellationToken.IsCancellationRequested)
             {
-                Message = $"Stock: {request.Name.ToUpper()}:\nPrice: $ {value.ToString("f2")}"
-            });
+                double value = random.NextDouble(5.00, 5.50);
+
+                var quotes = new QuotesData
+                { 
+                    Datetime = DateTime.UtcNow.ToString(),
+                    Quote = $"GOOG Stock: $ {value.ToString("f2")}"
+                };
+
+                _logger.LogInformation("Sending GOOG quotes");
+
+                await responseStream.WriteAsync(quotes);
+
+                await Task.Delay(500); 
+            }
+
+            if (context.CancellationToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("The client cancelled their request");
+            }
         }
+
+        //public override Task SayHello(HelloRequest request, IServerStreamWriter<HelloReply> responseStream, ServerCallContext context)
+        //{
+        //    Random random = new Random();
+        //    double value = random.NextDouble(5.00, 5.50);
+
+        //    return Task.FromResult(new HelloReply
+        //    {
+        //        Message = $"Stock: {request.Name.ToUpper()}:\nPrice: $ {value.ToString("f2")}"
+        //    });
+        //}
+
     }
     public static class RandomExtensions
     {
