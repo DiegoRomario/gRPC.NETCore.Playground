@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "gRPC.NETCore.Host";
+
+package stocklistener;
+
+service StockListener {
+  rpc GetQuotesStream (Stock) returns (stream QuotesData);
+}
+
+message QuotesData {
+  string datetime = 1;
+  string ticker = 2;
+  string quote = 3;
+  string priorquote = 4;
+  string variationvalue = 5;
+  string percentagechange = 6;
+  string details = 7;
+}
+
+
+message Stock {
+  string ticker = 1;
+}

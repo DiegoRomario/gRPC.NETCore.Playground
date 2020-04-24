@@ -46,7 +46,7 @@ namespace gRPC.NETCore.Host
                 _logger.LogInformation($"Sending {request} quotes");
                 await responseStream.WriteAsync(quotes);
 
-                await Task.Delay(350); 
+                await Task.Delay(1200); 
             }
 
             if (context.CancellationToken.IsCancellationRequested)

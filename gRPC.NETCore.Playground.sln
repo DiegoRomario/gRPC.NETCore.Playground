@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC.NETCore.Host", "src\gRPC.NETCore.Host\gRPC.NETCore.Host.csproj", "{A1D0F52C-D148-405E-8BB1-F56F36B22996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gRPC.NETCore.Host", "src\gRPC.NETCore.Host\gRPC.NETCore.Host.csproj", "{A1D0F52C-D148-405E-8BB1-F56F36B22996}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC.NETCore.Client", "src\gRPC.NETCore.Client\gRPC.NETCore.Client.csproj", "{BAD66C54-91B9-4AA3-ADF6-76D55BB50FAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A1D0F52C-D148-405E-8BB1-F56F36B22996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D0F52C-D148-405E-8BB1-F56F36B22996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1D0F52C-D148-405E-8BB1-F56F36B22996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAD66C54-91B9-4AA3-ADF6-76D55BB50FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD66C54-91B9-4AA3-ADF6-76D55BB50FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD66C54-91B9-4AA3-ADF6-76D55BB50FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD66C54-91B9-4AA3-ADF6-76D55BB50FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
